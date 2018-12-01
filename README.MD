@@ -10,7 +10,10 @@ It can be useful to print another set, but to avoid colissions you provide a thi
 
 ## Dependancy's
 * Python3
-* pdfTeX
-** Generates the page that overlays the document to be printed
-* pdftk
-** Overlays pages of the file to be printed and the UID page
+* pdfTeX: 
+Generates the page that overlays the document to be printed
+* pdftk: 
+Overlays pages of the file to be printed and the UID page
+
+## Note of Shame
+There is an ugly snipit of bash in print.sh that sends off the files in .build/pdf to be printed. It should work out of the box for any CSSE staff that are sending jobs to the resource room, but I imagine that this is all very spesific to that set of printers. 
