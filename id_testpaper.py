@@ -1,6 +1,10 @@
-from subprocess import run
+#!/bin/python3
+
+from subprocess import run, DEVNULL
 import os
 import argparse
+
+from progress.bar import Bar
 
 
 build_dir = ".build"
@@ -33,6 +37,7 @@ def getArgs():
 
 def printRun(coreFile, printSize, uid_offset=0):
     """Takes a core file will print it n times with a uid, note that you can offset this with"""
+    bar = Bar('Progress', max=printSize*3)
     with open(uid_template) as f:
         template = f.read()
 
@@ -42,18 +47,25 @@ def printRun(coreFile, printSize, uid_offset=0):
         with open(filename, "w") as outFile:
             outFile.write(template % i)
         tag_cmd = "pdflatex -output-directory=.build {} ".format(filename)
-        run(tag_cmd, shell=True)
+        run(tag_cmd, shell=True, stdout=DEVNULL)
+
+    if state == "debug":
+        print(">> in debug mode!!")
 
     for i in range(uid_offset ,printSize+uid_offset):
         maketag(i)
+        bar.next()
 
     for i in range(uid_offset,printSize + uid_offset):
         run("pdftk {} stamp {} output {}".format(coreFile, build_dir +"/{}.pdf".format(i),
                                                  build_dir + "/" + output_dir + "/overlay_{}.pdf".format(i)), shell=True)
+        bar.next()
+        bar.next()
     run("./print.sh {}".format(build_dir + "/" + output_dir), shell=True)
 
     if state != "debug":
         clearTempStore()
+    bar.finish()
 
 
 
