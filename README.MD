@@ -11,6 +11,6 @@ It can be useful to print another set, but to avoid colissions you provide a thi
 ## Dependancy's
 * Python3
 * pdfTeX
-..* Generates the page that overlays the document to be printed
+** Generates the page that overlays the document to be printed
 * pdftk
-..* Overlays pages of the file to be printed and the UID page
+** Overlays pages of the file to be printed and the UID page
